@@ -18,7 +18,7 @@ describe('detectVerifier()', function () {
     assert.strictEqual(detectVerifier({ NEVERBOUNCE_API_KEY: 'asdf' }), 'neverbounce');
   });
 
-  it('returns mailgun if MAILGUN_API_KEY is present', function () {
-    assert.strictEqual(detectVerifier({ MAILGUN_API_KEY: 'asdf' }), 'mailgun');
+  it('returns mailgun if MAILGUN_PUBLIC_API_KEY is present', function () {
+    assert.strictEqual(detectVerifier({ MAILGUN_PUBLIC_API_KEY: 'asdf' }), 'mailgun');
   });
 });

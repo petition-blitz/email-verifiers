@@ -36,6 +36,8 @@
     "node": ">=10"
   },
   "dependencies": {
+    "form-data": "^4.0.0",
+    "mailgun.js": "^3.3.0",
     "neverbounce": "^4.4.1",
     "node-fetch": "^2.6.1"
   },

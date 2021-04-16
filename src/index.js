@@ -1,7 +1,7 @@
 const verifiers = {
   datavalidation: require('./verifiers/datavalidation'),
-  neverbounce: require('./verifiers/neverbounce')
-  // mailgun: require('./mailgun')
+  neverbounce: require('./verifiers/neverbounce'),
+  mailgun: require('./verifiers/mailgun')
 };
 
 function detectVerifier (env = {}, fallback = null) {
@@ -13,7 +13,7 @@ function detectVerifier (env = {}, fallback = null) {
     return 'neverbounce';
   }
 
-  if (env.MAILGUN_API_KEY) {
+  if (env.MAILGUN_PUBLIC_API_KEY) {
     return 'mailgun';
   }
 
