@@ -4,9 +4,9 @@ Provides a unified interface for checking email address deliverability
 
 ## Supported Vendors
 
-* DataValidation
-* NeverBounce
-* Mailgun
+* [DataValidation](https://datavalidation.com)
+* [NeverBounce](https://neverbounce.com)
+* [Mailgun](https://mailgun.com)
 
 ## Installation
 
