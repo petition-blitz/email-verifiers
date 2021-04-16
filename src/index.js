@@ -1,10 +1,44 @@
-module.exports = {
-  datavalidation: require('./datavalidation')({
-    apiKey: process.env.DATAVALIDATION_API_KEY,
-    acceptableGrades: ['A+', 'A', 'B']
-  }),
-  neverbounce: require('./neverbounce')({
-    apiKey: process.env.NEVERBOUNCE_API_KEY,
-    acceptableCodes: [0, 3, 4]
-  })
+const verifiers = {
+  datavalidation: require('./verifiers/datavalidation'),
+  neverbounce: require('./verifiers/neverbounce')
+  // mailgun: require('./mailgun')
 };
+
+function detectVerifier (env = {}, fallback = null) {
+  if (env.DATAVALIDATION_API_KEY) {
+    return 'datavalidation';
+  }
+
+  if (env.NEVERBOUNCE_API_KEY) {
+    return 'neverbounce';
+  }
+
+  if (env.MAILGUN_API_KEY) {
+    return 'mailgun';
+  }
+
+  return fallback;
+}
+
+function createVerifier (verifier, options = {}) {
+  if (!verifier) {
+    throw new Error('verifier is required');
+  }
+
+  if (!verifiers[verifier]) {
+    throw new Error(`Unsupported verifier: ${verifier}`);
+  }
+
+  const config = {
+    ...verifiers[verifier].DEFAULTS,
+    ...options
+  };
+
+  if (!config.apiKey) {
+    throw new Error('options.apiKey is required');
+  }
+
+  return verifiers[verifier](config);
+}
+
+module.exports = { verifiers, createVerifier, detectVerifier };

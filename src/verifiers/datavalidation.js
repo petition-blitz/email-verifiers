@@ -24,12 +24,12 @@ async function check (apiKey, email) {
   throw new Error(`DataValidation API error: HTTP ${res.status} ${res.statusText}`);
 }
 
-module.exports = ({ apiKey, acceptableGrades }) => {
+module.exports = ({ apiKey, accept }) => {
   assert.strictEqual('string', typeof apiKey, 'options.apiKey must be a string');
   assert(apiKey.length > 0, 'options.apiKey must not be empty');
 
-  assert.strictEqual(true, Array.isArray(acceptableGrades), 'options.acceptableGrades must be an array');
-  assert(acceptableGrades.length > 0, 'options.acceptableGrades must not be empty');
+  assert.strictEqual(true, Array.isArray(accept), 'options.accept must be an array');
+  assert(accept.length > 0, 'options.accept must not be empty');
 
   return async function ({ email }) {
     const { status, reason, grade } = await check(apiKey, email);
@@ -38,8 +38,13 @@ module.exports = ({ apiKey, acceptableGrades }) => {
       throw new Error(`DataValidation validation error: ${reason}`);
     }
 
-    return acceptableGrades.includes(grade);
+    return accept.includes(grade);
   };
 };
 
 module.exports.GRADES = GRADES;
+
+module.exports.DEFAULTS = {
+  apiKey: process.env.DATAVALIDATION_API_KEY,
+  accept: ['A+', 'A', 'B']
+};

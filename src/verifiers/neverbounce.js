@@ -1,12 +1,12 @@
 const assert = require('assert');
 const NeverBounce = require('neverbounce');
 
-module.exports = ({ apiKey, acceptableCodes }) => {
+module.exports = ({ apiKey, accept }) => {
   assert.strictEqual('string', typeof apiKey, 'options.apiKey must be a string');
   assert(apiKey.length > 0, 'options.apiKey must not be empty');
 
-  assert.strictEqual(true, Array.isArray(acceptableCodes), 'options.acceptableCodes must be an array');
-  assert(acceptableCodes.length > 0, 'options.acceptableCodes must not be empty');
+  assert.strictEqual(true, Array.isArray(accept), 'options.accept must be an array');
+  assert(accept.length > 0, 'options.accept must not be empty');
 
   const client = new NeverBounce({ apiKey });
 
@@ -33,6 +33,11 @@ module.exports = ({ apiKey, acceptableCodes }) => {
     }
 
     const result = await client.single.check(data.email);
-    return result.is(acceptableCodes);
+    return result.is(accept);
   };
+};
+
+module.exports.DEFAULTS = {
+  apiKey: process.env.NEVERBOUNCE_API_KEY,
+  accept: [0, 3, 4]
 };
