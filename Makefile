@@ -20,7 +20,7 @@ publish:
 	npm publish --access public
 
 changelog:
-	github_changelog_generator -u compwright -p petition-blitz/email-verifiers
+	github_changelog_generator -u petition-blitz -p email-verifiers
 
 changelog-commit: changelog
 	git add CHANGELOG.md
