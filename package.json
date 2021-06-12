@@ -36,15 +36,13 @@
     "node": ">=10"
   },
   "dependencies": {
-    "form-data": "^4.0.0",
-    "mailgun.js": "^3.3.0",
-    "neverbounce": "^4.4.1",
-    "node-fetch": "^2.6.1"
+    "isomorphic-fetch": "^3.0.0",
+    "neverbounce": "^4.4.1"
   },
   "devDependencies": {
     "fetch-mock": "^9.11.0",
-    "mocha": "^8.3.0",
-    "semistandard": "^16.0.0"
+    "mocha": "^8.4.0",
+    "semistandard": "*"
   },
   "semistandard": {
     "env": [

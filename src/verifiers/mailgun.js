@@ -1,29 +1,45 @@
+/* global fetch:false */
+
 const assert = require('assert');
-const formData = require('form-data');
-const Mailgun = require('mailgun.js');
+require('isomorphic-fetch');
 
-const mg = new Mailgun(formData);
+const GRADES = ['high', 'medium', 'low', 'unknown'];
 
-module.exports = ({ apiKey, accept, url }) => {
+async function check (apiKey, email) {
+  const url = 'https://api.mailgun.net/v4/address/validate?address=' + encodeURIComponent(email);
+
+  const config = {
+    headers: {
+      Authorization: 'Basic ' + Buffer.from('api:' + apiKey).toString('base64'),
+      Accept: 'application/json'
+    }
+  };
+
+  const res = await fetch(url, config);
+
+  if (res.ok) {
+    return await res.json();
+  }
+
+  throw new Error(`Mailgun API error: HTTP ${res.status} ${res.statusText}`);
+}
+
+module.exports = ({ apiKey, accept }) => {
   assert.strictEqual('string', typeof apiKey, 'options.apiKey must be a string');
   assert(apiKey.length > 0, 'options.apiKey must not be empty');
 
   assert.strictEqual(true, Array.isArray(accept), 'options.accept must be an array');
   assert(accept.length > 0, 'options.accept must not be empty');
 
-  const client = mg.client({
-    username: 'api',
-    key: apiKey,
-    public_key: apiKey
-  });
-
-  return async function (data) {
-    const result = await client.validate.get(data.email);
-    return accept.includes(!!result.is_valid);
+  return async function ({ email }) {
+    const { risk } = await check(apiKey, email);
+    return accept.includes(risk);
   };
 };
 
+module.exports.GRADES = GRADES;
+
 module.exports.DEFAULTS = {
-  apiKey: process.env.MAILGUN_PUBLIC_API_KEY,
-  accept: [true]
+  apiKey: process.env.MAILGUN_API_KEY,
+  accept: ['low', 'medium', 'unknown']
 };

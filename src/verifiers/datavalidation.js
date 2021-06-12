@@ -1,7 +1,7 @@
 /* global fetch:false */
 
 const assert = require('assert');
-require('node-fetch');
+require('isomorphic-fetch');
 
 const GRADES = ['A', 'A+', 'B', 'D', 'F'];
 
