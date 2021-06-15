@@ -13,7 +13,7 @@ function detectVerifier (env = {}, fallback = null) {
     return 'neverbounce';
   }
 
-  if (env.MAILGUN_PUBLIC_API_KEY) {
+  if (env.MAILGUN_API_KEY) {
     return 'mailgun';
   }
 
