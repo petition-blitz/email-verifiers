@@ -32,8 +32,9 @@ module.exports = ({ apiKey, accept }) => {
   assert(accept.length > 0, 'options.accept must not be empty');
 
   return async function ({ email }) {
+    console.log('mailgun:', email);
     const { risk } = await check(apiKey, email);
-    console.debug('mailgun:', email, risk);
+    console.log('mailgun:', email, risk);
     return accept.includes(risk);
   };
 };

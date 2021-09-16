@@ -38,6 +38,8 @@ function createVerifier (verifier, options = {}) {
     throw new Error('options.apiKey is required');
   }
 
+  console.log('Verifier:', verifier, config);
+
   return verifiers[verifier](config);
 }
 
