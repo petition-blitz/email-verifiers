@@ -33,6 +33,7 @@ module.exports = ({ apiKey, accept }) => {
 
   return async function ({ email }) {
     const { risk } = await check(apiKey, email);
+    console.debug('mailgun:', email, risk);
     return accept.includes(risk);
   };
 };
